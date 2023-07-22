@@ -1,0 +1,11 @@
+{
+    "name":"log4cpp",
+    "version":"null",
+    "dependencies":{
+        "common":[
+        ],
+        "windows":[],
+        "linux":[],
+        "darwin":[]
+    }
+}
