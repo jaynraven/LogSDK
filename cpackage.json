@@ -1,0 +1,18 @@
+{
+    "name":"LogSDK",
+    "version":"1.0.0.0",
+    "dependencies":{
+        "common":[
+            {
+                "name":"log4cpp",
+                "version":"1.9.5",
+                "tag":"null",
+                "access":"PUBLIC",
+                "url":"null"
+            }
+        ],
+        "windows":[],
+        "linux":[],
+        "darwin":[]
+    }
+}
