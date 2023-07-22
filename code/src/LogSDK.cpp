@@ -56,7 +56,7 @@ bool InitLog(const char* config_file, const char* log_file, const char* catalog)
 		}
 		else
 		{
-			printf("Cound not find config file");
+			printf("Cound not find config file\n");
 		}
 		
 		log4cpp::Category& root = log4cpp::Category::getInstance(catalog);
