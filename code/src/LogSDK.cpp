@@ -64,7 +64,7 @@ bool InitLog(const char* config_file, const char* log_file, const char* catalog)
 		appender->setMaximumFileSize(LOG_FILE_SIZE_MAX);
 
 		log4cpp::PatternLayout *patternLayout = new log4cpp::PatternLayout();
-		patternLayout->setConversionPattern("[%d{%Y-%m-%d %H:%M:%S.%l}] [%t] [%p] %m %n");
+		patternLayout->setConversionPattern("%d{%Y-%m-%d %H:%M:%S.%l} [%t] [%p] %m %n");
 		appender->setLayout(patternLayout);
 
 		root.addAppender(appender);
@@ -90,47 +90,51 @@ bool Log(const char* catalog, LogLevel level, const char* format, ...)
 		vsnprintf (buffer, LOG_BUFFER_LEN_MAX - 1, format, args);
 		va_end (args);
 
-		switch (level)
+		if (log4cpp::Category::exists(catalog))
 		{
-		case LEVEL_INFO:
-			if (log4cpp::Category::getInstance(catalog).isInfoEnabled())
+			switch (level)
 			{
-				// log4cpp::Category::getInstance(catalog).info(format, args);
-				log4cpp::Category::getInstance(catalog).info("%s", buffer);
-				res = true;
-			}
-			break;
-		case LEVEL_ERROR:
-			if (log4cpp::Category::getInstance(catalog).isErrorEnabled())
-			{
-				// log4cpp::Category::getInstance(catalog).error(format, args);
-				log4cpp::Category::getInstance(catalog).error("%s", buffer);
-				res = true;
-			}
-			break;
-		case LEVEL_WARN:
-			if (log4cpp::Category::getInstance(catalog).isWarnEnabled())
-			{
-				// log4cpp::Category::getInstance(catalog).warn(format, args);
-				log4cpp::Category::getInstance(catalog).warn("%s", buffer);
-				res = true;
-			}
-			break;
-		case LEVEL_DEBUG:
-			if (log4cpp::Category::getInstance(catalog).isDebugEnabled())
-			{
-				// log4cpp::Category::getInstance(catalog).debug(format, args);
-				log4cpp::Category::getInstance(catalog).debug("%s", buffer);
-				res = true;
-			}
-			break;
-		default:
-			{
-				printf("Unknown log level: %u", level);
-				res = false;
-			}
+			case LEVEL_INFO:
+				if (log4cpp::Category::getInstance(catalog).isInfoEnabled())
+				{
+					// log4cpp::Category::getInstance(catalog).info(format, args);
+					log4cpp::Category::getInstance(catalog).info("%s", buffer);
+					res = true;
+				}
 				break;
+			case LEVEL_ERROR:
+				if (log4cpp::Category::getInstance(catalog).isErrorEnabled())
+				{
+					// log4cpp::Category::getInstance(catalog).error(format, args);
+					log4cpp::Category::getInstance(catalog).error("%s", buffer);
+					res = true;
+				}
+				break;
+			case LEVEL_WARN:
+				if (log4cpp::Category::getInstance(catalog).isWarnEnabled())
+				{
+					// log4cpp::Category::getInstance(catalog).warn(format, args);
+					log4cpp::Category::getInstance(catalog).warn("%s", buffer);
+					res = true;
+				}
+				break;
+			case LEVEL_DEBUG:
+				if (log4cpp::Category::getInstance(catalog).isDebugEnabled())
+				{
+					// log4cpp::Category::getInstance(catalog).debug(format, args);
+					log4cpp::Category::getInstance(catalog).debug("%s", buffer);
+					res = true;
+				}
+				break;
+			default:
+				{
+					printf("Unknown log level: %u", level);
+					res = false;
+				}
+					break;
+			}
 		}
+		
 		return res;
 	}
 	catch(const std::exception& e)
