@@ -16,7 +16,6 @@
 #endif
 
 #include <string>
-#include "log4cpp/Category.hh"
 
 typedef enum {
     LEVEL_ERROR  = 0, 
